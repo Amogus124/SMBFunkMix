@@ -174,6 +174,8 @@ class PlayState extends MusicBeatState
 	// stores the last combo objects in an array
 	public static var lastCombo:Array<FlxSprite>;
 
+	var controllermode:Bool = #if android true #else false #end;
+	
 	public static var blackBox:FlxShapeBox;
 	public static var marioSwim:FlxSprite;
 	
