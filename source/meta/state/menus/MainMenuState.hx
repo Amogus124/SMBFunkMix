@@ -205,9 +205,12 @@ class MainMenuState extends MusicBeatState
 
 		add(submenuGroup);
 
-    #if android
-	  addVirtualPad(UP_DOWN, A_B);
-    #end
+		//
+
+                #if android
+	        addVirtualPad(UP_DOWN, A_B);
+                #end
+	}
 
 		submenu.visible = false;
 		submenuGroup.visible = false;
