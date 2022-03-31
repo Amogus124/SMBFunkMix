@@ -76,8 +76,8 @@ class OptionsMenuState extends MusicBeatState
 					['preferences', callNewGroup],
 					['appearance', callNewGroup],
 					['controls', openControlmenu],
+					['android controls', androidControlsMenu],
 					['exit', exitMenu]
-				]
 			],
 			'preferences' => [
 				[
@@ -156,6 +156,10 @@ class OptionsMenuState extends MusicBeatState
 		loadPipes();
 
 		//loadSubgroup('main');
+
+                #if android
+	        addVirtualPad(FULL, A_B);
+                #end
 	}
 
 	private var currentAttachmentMap:Map<FlxText, Dynamic>;
