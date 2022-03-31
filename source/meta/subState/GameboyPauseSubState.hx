@@ -166,6 +166,12 @@ class GameboyPauseSubState extends MusicBeatSubState
 		#end
 	}
 
+                #if android
+	        addVirtualPad(NONE, A_B);
+                addPadCamera();
+                #end
+	}
+
 	override function update(elapsed:Float)
 	{
 		#if debug
