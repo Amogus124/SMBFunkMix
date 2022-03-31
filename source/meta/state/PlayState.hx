@@ -579,6 +579,12 @@ class PlayState extends MusicBeatState
 		dialogueHUD.bgColor.alpha = 0;
 		FlxG.cameras.add(dialogueHUD);
 
+                #if android
+	        addPadCamera();
+                #end
+
+		//
+
 		verticalBridge =  new FlxSprite(96 * 6, 50 * 6).loadGraphic(Paths.image("UI/default/mari0/bridge-vertical"), true, 24, 120);
 		verticalBridge.animation.add("idle", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34], 9, true);
 		verticalBridge.animation.play("idle");
@@ -1047,14 +1053,24 @@ class PlayState extends MusicBeatState
 			}
 		}
 
-		// dialogue checks
-		if (dialogueBox != null && dialogueBox.alive) {
 			// wheee the shift closes the dialogue
-			if (FlxG.keys.justPressed.SHIFT)
+			if (FlxG.keys.justPressed.SHIFT	#if android || FlxG.android.justReleased.BACK #end)
 				dialogueBox.closeDialog();
 
 			// the change I made was just so that it would only take accept inputs
-			if (controls.ACCEPT && dialogueBox.textStarted)
+		        #if android
+                        var justTouched:Bool = false;
+
+		        for (touch in FlxG.touches.list)
+		        {
+			        if (touch.justPressed)
+			        {
+				        justTouched = true;
+			        }
+		        }
+		        #end
+
+			if (controls.ACCEPT #if android || justTouched #end && dialogueBox.textStarted)
 			{
 				FlxG.sound.play(Paths.sound('cancelMenu'));
 				dialogueBox.curPage += 1;
@@ -1069,7 +1085,7 @@ class PlayState extends MusicBeatState
 
 		if (!inCutscene) {
 			// pause the game if the game is allowed to pause and enter is pressed
-			if (FlxG.keys.justPressed.ENTER && startedCountdown && canPause)
+			if (FlxG.keys.justPressed.ENTER	#if android || FlxG.android.justReleased.BACK #end && startedCountdown && canPause)
 			{
 				// update drawing stuffs
 				persistentUpdate = false;
@@ -1077,14 +1093,7 @@ class PlayState extends MusicBeatState
 				paused = true;
 
 				// open pause substate
-				if (!isGameboy)
-				{
-					openSubState(new PauseSubState(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
-				}
-				else
-				{
-					openSubState(new GameboyPauseSubState(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
-				}
+				openSubState(new PauseSubState(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
 				updateRPC(true);
 			}
 
@@ -2787,6 +2796,9 @@ class PlayState extends MusicBeatState
 		canPause = false;
 		songMusic.volume = 0;
 		vocals.volume = 0;
+	        #if android
+	        androidc.visible = false;
+	        #end
 
 		var wasCompleted = Highscore.getData(SONG.song)[0] != 0;
 		var allCompleted = true;
@@ -3085,6 +3097,9 @@ class PlayState extends MusicBeatState
 		swagCounter = 0;
 
 		camHUD.visible = true;
+	        #if android
+	        androidc.visible = true;
+	        #end
 
 		var animFPS = (isSonic) ? 9 : 0;
 		var countdown:FlxSprite = new FlxSprite(0, 16 * 6).loadGraphic(Paths.image(assetPath), true, 33, 17);
