@@ -370,6 +370,10 @@ class OptionsSubstate extends MusicBeatSubState
 
 		submenuGroup.visible = false;
 		submenuoffsetGroup.visible = false;
+
+                #if android
+	        addVirtualPad(FULL, A_B);
+                #end
 	}
 
 	private function subMenuControl()
