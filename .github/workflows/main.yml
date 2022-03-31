@@ -3,7 +3,12 @@
 name: Build
 
 # Controls when the action will run. 
-on: [push, pull_request, workflow_dispatch]
+on:
+  # Triggers the workflow on push or pull request events but only for the master branch
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -187,7 +192,7 @@ jobs:
           haxelib git polymod https://github.com/MasterEric/polymod.git
           haxelib git linc_luajit https://github.com/jigsaw-4277821/linc_luajit.git
           haxelib git AndroidTools https://github.com/jigsaw-4277821/AndroidTools.git   
-          haxelib git extension-webview https://github.com/jigsaw-4277821/extension-webview.git --quiet
+          haxelib git extension-webm https://github.com/Sirox228/extension-webm --quiet
           haxelib list
           
       - name: Create Version Tag
